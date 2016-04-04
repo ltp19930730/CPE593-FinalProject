@@ -1,3 +1,3 @@
 # High Performance Mandelbrot Set
-team members:
+Team members:
 Tianpei Luo;Dillon Guarino;Matthew Melachrinos
