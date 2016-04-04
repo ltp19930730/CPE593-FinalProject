@@ -1,6 +1,8 @@
 # High Performance Mandelbrot Set
 Team members:
+
 Tianpei Luo;Dillon Guarino;Matthew Melachrinos
+
 What is a Mandelbrot set?
 
 A mandelbrot set is a set of complex numbers that when graphed, form self similar patterns called fractals. Technically speaking, the mandelbrot set is “the set for which fc(z) = z2+ cdoes not diverge when iterated from z=0. When iterating the function, one of two things can happen. Either z grows to infinity, it “blows up” so to speak, or it stays bounded within r = 2. The mandelbrot set is the set of all numbers that stay bounded. 
