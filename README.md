@@ -1,6 +1,5 @@
-# CPE593-FinalProject
-High Performance Mandelbrot Set
-
+# High Performance Mandelbrot Set
+team members:
 Tianpei Luo
 Dillon Guarino
 Matthew Melachrinos
