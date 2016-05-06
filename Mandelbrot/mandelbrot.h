@@ -67,6 +67,9 @@ public:
         }
         return iteration;
     }
+
+
+
     Complex PixelofComplex(int w,int h){
         double a = ((ce->getReal()-ca->getReal()) / wide)*w + ca->getReal();
         double b = ((ce->getImag()-ca->getImag()) / height)*(height-h) + ca->getImag();
@@ -111,6 +114,12 @@ public:
             str += "\n";
         }
         return str;
+    }
+    void setDemension(int wide,int height){
+        if(wide >= 0 && height >= 0){
+            this->wide = wide;
+            this->height = height;
+        }
     }
 
 

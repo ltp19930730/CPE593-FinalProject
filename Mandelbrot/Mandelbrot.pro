@@ -12,11 +12,12 @@ TARGET = Mandelbrot
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES += main.cpp
 
 HEADERS  += mainwindow.h \
     complex.hpp \
-    mandelbrot.h
+    mandelbrot.h \
+    graphicview.h \
+    graphic.h
 
 FORMS    += mainwindow.ui

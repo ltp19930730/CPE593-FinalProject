@@ -19,12 +19,12 @@ int main(int argc, char *argv[])
 
     cout<< mandelbrot->toString()<<endl;
 
-    mandelbrot->setDemension(750,600);
+    mandelbrot->setDemension(1000,900);
     mandelbrot->calculate();
 
-
     QApplication a(argc, argv);
-    MainWindow w;
+    MainWindow w(mandelbrot);
+    w.setWindowTitle("MandelbrotSet");
     w.show();
 
     return a.exec();
