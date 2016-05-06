@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     cout<< mandelbrot->toString()<<endl;
 
     mandelbrot->setDemension(1000,900);
+    mandelbrot->setIteration(500);
     mandelbrot->calculate();
 
     QApplication a(argc, argv);
