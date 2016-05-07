@@ -5,7 +5,6 @@
 #include "Mandelbrot.h"
 #include "Complex.hpp"
 
-using namespace mandelbrot;
 using namespace std;
 
 

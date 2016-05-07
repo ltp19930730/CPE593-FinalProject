@@ -12,8 +12,6 @@
 #include "graphicview.h"
 #include "Mandelbrot.h"
 
-using namespace mandelbrot;
-
 namespace Ui {
     class MainWindow;
 }
@@ -22,32 +20,16 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    explicit MainWindow(Mandelbrot *model,QWidget *parent = 0) : QMainWindow(parent){
-        this->model = model ;
-        initUI();
-        this->resize(model->getWide(),model->getHeight());
-        setSize(model->getWide(),model->getHeight());
-
-    }
-    ~MainWindow(){
-        delete view;
-        delete ui;
-    }
-
-    void initUI(){
-        ui = new Ui::MainWindow;
-        ui -> setupUi(this);
-        view = new GraphicView(model,this);
-    }
-    void setSize(int wide,int height){
-        view->setSize(wide,height);
-    }
-
 private:
     Ui::MainWindow *ui;
     GraphicView* view;
     Mandelbrot* model;
+public:
+    explicit MainWindow(Mandelbrot *model,QWidget *parent = 0);
+    ~MainWindow();
+
+    void initUI();
+    void setSize(int wide,int height);
 };
 
 #endif // MAINWINDOW_H

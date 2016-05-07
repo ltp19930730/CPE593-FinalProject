@@ -13,7 +13,11 @@ TEMPLATE = app
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    complex.cpp
+    complex.cpp \
+    graphic.cpp \
+    mainwindow.cpp \
+    graphicview.cpp \
+    mandelbrot.cpp
 
 HEADERS  += mainwindow.h \
     complex.hpp \

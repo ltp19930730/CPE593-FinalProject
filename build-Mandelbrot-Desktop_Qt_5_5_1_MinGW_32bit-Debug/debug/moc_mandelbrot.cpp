@@ -18,25 +18,25 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-struct qt_meta_stringdata_mandelbrot__Mandelbrot_t {
+struct qt_meta_stringdata_Mandelbrot_t {
     QByteArrayData data[1];
-    char stringdata0[23];
+    char stringdata0[11];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_mandelbrot__Mandelbrot_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Mandelbrot_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_mandelbrot__Mandelbrot_t qt_meta_stringdata_mandelbrot__Mandelbrot = {
+static const qt_meta_stringdata_Mandelbrot_t qt_meta_stringdata_Mandelbrot = {
     {
-QT_MOC_LITERAL(0, 0, 22) // "mandelbrot::Mandelbrot"
+QT_MOC_LITERAL(0, 0, 10) // "Mandelbrot"
 
     },
-    "mandelbrot::Mandelbrot"
+    "Mandelbrot"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_mandelbrot__Mandelbrot[] = {
+static const uint qt_meta_data_Mandelbrot[] = {
 
  // content:
        7,       // revision
@@ -52,7 +52,7 @@ static const uint qt_meta_data_mandelbrot__Mandelbrot[] = {
        0        // eod
 };
 
-void mandelbrot::Mandelbrot::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void Mandelbrot::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     Q_UNUSED(_o);
     Q_UNUSED(_id);
@@ -60,26 +60,26 @@ void mandelbrot::Mandelbrot::qt_static_metacall(QObject *_o, QMetaObject::Call _
     Q_UNUSED(_a);
 }
 
-const QMetaObject mandelbrot::Mandelbrot::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_mandelbrot__Mandelbrot.data,
-      qt_meta_data_mandelbrot__Mandelbrot,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+const QMetaObject Mandelbrot::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_Mandelbrot.data,
+      qt_meta_data_Mandelbrot,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
-const QMetaObject *mandelbrot::Mandelbrot::metaObject() const
+const QMetaObject *Mandelbrot::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *mandelbrot::Mandelbrot::qt_metacast(const char *_clname)
+void *Mandelbrot::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_mandelbrot__Mandelbrot.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Mandelbrot.stringdata0))
         return static_cast<void*>(const_cast< Mandelbrot*>(this));
     return QObject::qt_metacast(_clname);
 }
 
-int mandelbrot::Mandelbrot::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int Mandelbrot::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)

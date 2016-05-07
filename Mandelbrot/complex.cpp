@@ -4,7 +4,7 @@
 #include <sstream>
 #include <Qstring>
 
-Complex::Complex(double real, double image):real(real), imag(imag){}
+Complex::Complex(double real, double imag):real(real), imag(imag){}
 
 Complex::Complex(Complex *a){
     this->real=a->real;
@@ -13,6 +13,10 @@ Complex::Complex(Complex *a){
 
 double Complex::Modeule() const {
     return real*real + imag*imag;
+}
+
+double Complex::getReal() const {
+    return real;
 }
 
 double Complex::getImag() const{
