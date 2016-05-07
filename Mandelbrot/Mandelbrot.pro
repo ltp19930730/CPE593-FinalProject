@@ -12,7 +12,8 @@ TARGET = Mandelbrot
 TEMPLATE = app
 CONFIG += c++11
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    complex.cpp
 
 HEADERS  += mainwindow.h \
     complex.hpp \
