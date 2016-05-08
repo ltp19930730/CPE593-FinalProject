@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <iostream>
+#include <QTime>
 
 #include "Mandelbrot.h"
 #include "Complex.hpp"
@@ -18,13 +19,19 @@ int main(int argc, char *argv[])
 
     cout<< mandelbrot->toString()<<endl;
 
-    mandelbrot->setDemension(1000,900);
-    mandelbrot->setIteration(500);
+    QTime time;
+    time.start();
+    mandelbrot->setDemension(860,720);
+    mandelbrot->setIteration(100);
     mandelbrot->calculate();
+    int time_Diff = time.elapsed();
+    float f = time_Diff/1000.0;
+
+    QString tr_timeDiff = QString{"%1"}.arg(f);
 
     QApplication a(argc, argv);
     MainWindow w(mandelbrot);
-    w.setWindowTitle("MandelbrotSet");
+    w.setWindowTitle("MandelbrotSet Calculate Time: " +tr_timeDiff);
     w.show();
 
     return a.exec();
