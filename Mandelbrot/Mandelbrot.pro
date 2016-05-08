@@ -10,19 +10,22 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Mandelbrot
 TEMPLATE = app
-CONFIG += c++11
+CONFIG += c++14
 
 SOURCES += main.cpp \
     complex.cpp \
     graphic.cpp \
     mainwindow.cpp \
     graphicview.cpp \
-    mandelbrot.cpp
+    mandelbrot.cpp \
+    mandelbrotparallel.cpp
 
 HEADERS  += mainwindow.h \
     complex.hpp \
     mandelbrot.h \
     graphicview.h \
-    graphic.h
+    graphic.h \
+    mandelbrotparallel.h \
+    stb_image_write.h
 
 FORMS    += mainwindow.ui

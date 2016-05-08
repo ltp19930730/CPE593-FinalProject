@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\complex.o
+./release\graphic.o
+./release\mainwindow.o
+./release\graphicview.o
+./release\mandelbrot.o
+./release\mandelbrotparallel.o
+./release\moc_mainwindow.o
+./release\moc_mandelbrot.o
+./release\moc_graphicview.o
+);

@@ -45,7 +45,7 @@ float normalized_iterations(int n, std::complex<T> zn, int bailout)
     return n + (log(log(bailout))-log(log(abs(zn))))/log(2);
 }
 
-void parallelMandelbrot()
+int main(int, char**)
 {
     // allow complex literal
     using namespace std::complex_literals;
@@ -77,6 +77,7 @@ void parallelMandelbrot()
 
     std::cout << "computation took " << elapsed_seconds.count() << "s" << std::endl;
 
-    stbi_write_png("mandelbrot_serial.png", 2000, 1250, 1, iteration_counts, 2000);
+    //stbi_write_png("mandelbrot_serial.png", 2000, 1250, 1, iteration_counts, 2000);
 
+    return 0;
 }

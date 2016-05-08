@@ -17,8 +17,8 @@
    <widget class="QWidget" name="GraphicsView" native="true">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>10</y>
+      <x>200</x>
+      <y>0</y>
       <width>601</width>
       <height>631</height>
      </rect>
@@ -27,7 +27,7 @@
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>1000</x>
+      <x>0</x>
       <y>0</y>
       <width>200</width>
       <height>71</height>

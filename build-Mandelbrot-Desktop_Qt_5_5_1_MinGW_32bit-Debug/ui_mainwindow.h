@@ -42,7 +42,7 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         GraphicsView = new QWidget(centralWidget);
         GraphicsView->setObjectName(QStringLiteral("GraphicsView"));
-        GraphicsView->setGeometry(QRect(0, 10, 601, 631));
+        GraphicsView->setGeometry(QRect(200, 0, 601, 631));
         tableWidget = new QTableWidget(centralWidget);
         if (tableWidget->columnCount() < 1)
             tableWidget->setColumnCount(1);
@@ -53,7 +53,7 @@ public:
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         tableWidget->setVerticalHeaderItem(0, __qtablewidgetitem1);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
-        tableWidget->setGeometry(QRect(1000, 0, 200, 71));
+        tableWidget->setGeometry(QRect(0, 0, 200, 71));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));

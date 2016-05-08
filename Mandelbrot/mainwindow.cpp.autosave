@@ -18,6 +18,7 @@ MainWindow::MainWindow(Mandelbrot *model,QWidget *parent) : QMainWindow(parent){
     //ui->tableWidget->setGeometry(model->getWide()-200,0,200,(int)ui->tableWidget->geometry().height());
     setSize(model->getWide(),model->getHeight());
     ui->tableWidget->move(model->getWide(),0);
+    ui->tableWidget->set
 
 }
 
