@@ -25,13 +25,14 @@ private:
         QRect bRect;
         Mandelbrot *model;
 public:
-        Graphic(Mandelbrot *model);
+    Graphic(Mandelbrot *model);
 
-        void paint(QPainter *painter,const QStyleOptionGraphicsItem *item,QWidget *widget);
-        void setColourForIteration(QColor &color, int iter);
-        int makeColorDifByRatio(double ratio,int diff);
-        QRectF boundingRect()const;
-        void setBoundingRect(int x1,int y1,int x2,int y2);
-        void setcolor(int index);
+    void paint(QPainter *painter,const QStyleOptionGraphicsItem *item,QWidget *widget);
+    void setColourForIteration(QColor &color, int iter);
+    int makeColorDifByRatio(double ratio,int diff);
+    QRectF boundingRect()const;
+    void setBoundingRect(int x1,int y1,int x2,int y2);
+    void setcolor(int index);
+
 };
 #endif // GRAPHIC_H

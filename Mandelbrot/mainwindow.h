@@ -24,6 +24,11 @@ private:
     Ui::MainWindow *ui;
     GraphicView* view;
     Mandelbrot* model;
+
+private slots:
+    void OnTblItemsCommitData(QWidget* pLineEdit);
+    void on_tableWidget_cellChanged(int row, int column);
+
 public:
     explicit MainWindow(Mandelbrot *model,QWidget *parent = 0);
     ~MainWindow();

@@ -19,6 +19,15 @@ public:
     GraphicView(Mandelbrot *model, QWidget *parent = 0);
     ~GraphicView();
     void setSize(int width,int height);
+    void redraw();
+
+public slots:
+    void zoomIn();
+    void zoomOut();
+
+protected:
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    void scaleView(qreal scaleFactor);
 };
 
 

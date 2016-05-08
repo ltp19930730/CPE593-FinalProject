@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QPoint>
 #include <QColor>
+#include <QStyleOptionGraphicsItem>
 
 
 Graphic::Graphic(Mandelbrot *model){
