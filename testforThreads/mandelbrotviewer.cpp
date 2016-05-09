@@ -5,6 +5,7 @@
 #include <QTime>
 #include <limits>
 
+// construct of MandelbrotViewer to initial the object
 MandelbrotViewer::MandelbrotViewer(int width,int height,QWidget *parent) : QWidget(parent){
     //init
     image = NULL;
@@ -15,11 +16,15 @@ MandelbrotViewer::MandelbrotViewer(int width,int height,QWidget *parent) : QWidg
     setMandelLocation(MandelLocation(MandelPoint(-0.75,0.0),0.0035));
     setMaxIterations(DEFAULT_MAX_ITERATIONS);
 }
-
+// set the static variable MaxIterations
 int MandelbrotViewer::MaxIterations = DEFAULT_MAX_ITERATIONS;
+
+
+// set the static variable IMAGE_VALUE_IN_SET as the max of double
 double MandelbrotViewer::IMAGE_VALUE_IN_SET = std::numeric_limits<double>::max();
 
 
+// insert the view parameters into a instance of a ViewParameter class
 void MandelbrotViewer::setViewParameters(int width,int height){
     deinit();
     viewParameters.width = width;
@@ -36,16 +41,18 @@ void MandelbrotViewer::setViewParameters(int width,int height){
     ValuesAreVaild = false;
 }
 
+// set the mandelbrot location
 void MandelbrotViewer::setMandelLocation(MandelLocation location){
     this->mandelLocation = location;
 }
+
 void MandelbrotViewer::setMaxIterations(int maxIterations){
     this->MaxIterations = maxIterations;}
 
 MandelbrotViewer::~MandelbrotViewer(){
     deinit();
 }
-
+// Deconstruct the instance
 void MandelbrotViewer::deinit(){
     if(iterationVal != NULL){
         for(int i = 0;i< viewParameters.width;i++){
@@ -55,11 +62,10 @@ void MandelbrotViewer::deinit(){
     delete iterationVal;
     iterationVal = NULL;
     delete image;
-
     image = NULL;
 }
 
-
+// transform the view point to a mandelpoint which is a complex number
 MandelPoint MandelbrotViewer::transformViewPointToMandelPoint(ViewPoint point,ViewParmeters viewParameters,MandelLocation mandelLocation){
     int xviewdiff = point.x - viewParameters.origin.x;
     int yviewdiff = viewParameters.origin.y-point.y;
@@ -71,7 +77,7 @@ MandelPoint MandelbrotViewer::transformViewPointToMandelPoint(ViewPoint point,Vi
     return MandelPoint(Newx,Newy);
 }
 
-
+// calculate escaping value of the mandelbrot point
 double MandelbrotViewer::calculateMandelPointIterateValue(MandelPoint point){
     double x = 0;
     double y = 0;
@@ -93,13 +99,16 @@ double MandelbrotViewer::calculateMandelPointIterateValue(MandelPoint point){
     return imagevalue;
 }
 
+// transfrom the escaping value to a color
 QColor MandelbrotViewer::calculateImageValueColor(double value){
     if(value >MaxIterations || value == IMAGE_VALUE_IN_SET){return DEFAULT_QCOLOR_IN_SET;}
     value = fmod(value,256.0);
     return QColor(value, 0, value);
 
 }
-
+// Multi-Threads algorithm for generating the image
+// separate the view into the number of the threads and then give each thread a job
+// in the end ,join the threads togother
 void MandelbrotViewer::MultiThreadtask(MandelLocation mandelLocation,
                  ViewParmeters viewParameters,double **iterateVal){
     vector<std::thread*> threads;
@@ -109,13 +118,13 @@ void MandelbrotViewer::MultiThreadtask(MandelLocation mandelLocation,
         std::thread *thread = new std::thread(singleThreadTask, mandelLocation, viewParameters, iterateVal, start, end);
         threads.push_back(thread);
     }
-    for(int i=0; i<threads.size(); i++){
+    for(uint i=0; i < threads.size(); i++){
         threads[i]->join();
         delete threads[i];
     }
-
 }
 
+// each thread call this static function to do their works
 void MandelbrotViewer::singleThreadTask(MandelLocation mandelLocation,ViewParmeters viewParmeters,double **imageVal,int start,int end){
     for(int i=start;i<end;i++){
         for(int j=0;j<viewParmeters.height;j++){
@@ -126,6 +135,7 @@ void MandelbrotViewer::singleThreadTask(MandelLocation mandelLocation,ViewParmet
     }
 }
 
+// change the value into a real color on the image view of Qimage
 void MandelbrotViewer::mapImagValtoQimage(double **imageVal){
     for(int i=0; i<viewParameters.width; i++){
         for(int j=0; j<viewParameters.height; j++){
@@ -133,27 +143,27 @@ void MandelbrotViewer::mapImagValtoQimage(double **imageVal){
         }
     }
 }
-
+//
 void MandelbrotViewer::paintEvent(QPaintEvent *event){
     paintImage(this->image);
 }
+
 
 void MandelbrotViewer::paintImage(QImage *image){
      QTime time;
      time.start();
     if(!ValuesAreVaild){
         // multiThread to calculate
-        // setWindowTitle(tr("Rendering..."));
+        setWindowTitle(tr("Rendering..."));
         MultiThreadtask(mandelLocation,viewParameters,iterationVal);
         ValuesAreVaild = true;
     }
-    //  setWindowTitle(tr("Drawing..."));
     mapImagValtoQimage(iterationVal);
-
 
     QPainter painter(this);
     painter.drawImage(0, 0, *image);
 
+    // to calculate the time to render this image and print it on the windowTitle
     int time_Diff = time.elapsed();
     float f = time_Diff/1000.0;
 
