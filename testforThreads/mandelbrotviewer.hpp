@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <QGraphicsView>
+#include <QColor>
 
 
 using namespace std;
@@ -41,7 +42,6 @@ private:
     QImage *image;
     double **iterationVal;
     bool ValuesAreVaild;
-    COLOR_CODE currentColor;
     ViewParmeters viewParameters;
     MandelLocation mandelLocation;
     static int MaxIterations;

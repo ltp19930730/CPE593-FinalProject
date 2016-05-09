@@ -10,7 +10,6 @@ MandelbrotViewer::MandelbrotViewer(int width,int height,QWidget *parent) : QWidg
     image = NULL;
     iterationVal = NULL;
     this->ValuesAreVaild =false;
-    currentColor = COLOR_101;
     setViewParameters(width,height);
     this->resize(width, height);
     setMandelLocation(MandelLocation(MandelPoint(-0.75,0.0),0.0035));
