@@ -12,7 +12,7 @@ using namespace std;
 
 #define DEFAULT_QCOLOR_IN_SET       (QColor(0, 0, 0))
 #define MAX_WORKER_THREADS          (1)
-#define DEFAULT_MAX_ITERATIONS      (4000)
+#define DEFAULT_MAX_ITERATIONS      (10000)
 
 class MandelbrotViewer : public QWidget{
     Q_OBJECT

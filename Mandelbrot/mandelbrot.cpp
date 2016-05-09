@@ -1,82 +1,108 @@
+#include "mandelbrot.h"
+#include "complex.h"
+
+#include <string>
+#include <sstream>
 #include <vector>
-#include <limits>
-#include <complex>
-#include <chrono>
-#include <iostream>
+#include <QObject>
 
-//#define STB_IMAGE_WRITE_IMPLEMENTATION
-//#include "stb_image_write.h"
-
-using namespace std;
-
-template <typename T, typename U>
-inline std::complex<T> operator*(const std::complex<T>& lhs, const U& rhs)
-{
-    return lhs * T(rhs);
+Mandelbrot::Mandelbrot(Complex *ca, Complex *ce, int iteration, int wide, int height){
+    this->ca = ca;
+    this->ce = ce;
+    this->wide = wide;
+    this->height = height;
+    this->iteration = iteration;
+    start = new Complex(ca);
+    end = new Complex(ce);
 }
 
-template <typename T, typename U>
-inline std::complex<T> operator*(const U& lhs, const std::complex<T>& rhs)
-{
-    return T(lhs) * rhs;
+Mandelbrot::~Mandelbrot() {
+    if(pixel)
+        delete [] pixel;
 }
 
-template<typename Iterate, typename IterationMap, typename T>
-int boundedorbit(Iterate f, std::complex<T> seed, int bound, int bailout=100,
-                 IterationMap itmap = [](int n, std::complex<T> z, int bailout) { return n; })
-{
-    auto z = f(seed);
+void Mandelbrot::calculate(){
+    pixel = new int [wide * height];
 
-    vector<int> bailoutRange;
-    for (int i = 1; i <= bailout; i++)
-        bailoutRange.push_back(i);
-
-    for (auto k : bailoutRange) {
-        if (abs(z) > bound)
-            return itmap(k, z, bailout);
-        z = f(z);
-    }
-    return std::numeric_limits<int>::min();
-}
-
-template<typename T>
-float normalized_iterations(int n, std::complex<T> zn, int bailout)
-{
-    return n + (log(log(bailout))-log(log(abs(zn))))/log(2);
-}
-
-void parallelMandelbrot()
-{
-    // allow complex literal
-    using namespace std::complex_literals;
-
-    // allocate storage
-    // TODO don't leak memory
-    unsigned char* iteration_counts = new unsigned char[2000*1250];
-
-    vector<int> range1;
-    for (int i = 0; i < 2000; i++)
-        range1.push_back(i);
-
-    vector<int> range2;
-    for (int i = 0; i < 1250; i++)
-        range2.push_back(i);
-
-    auto start = std::chrono::high_resolution_clock::now();
-
-    for (auto j : range1 ) {
-        cout << j << endl;
-        for (auto k :range2 ) {
-            auto c = (-2.5 + k*3.5/2000.0) + (-1.25i + j*2.5i/1250.0);
-            iteration_counts[2000*j + k] = boundedorbit([&c](auto z) { return z*z + c; }, 0.0i, 2, 200, &normalized_iterations<double>);
+    for(int i = 0; i < wide ; ++i){
+        for(int j = 0 ; j < height; ++j){
+            pixel[i+j*wide]= getIterationForPixel(PixelofComplex(i,j));
         }
     }
 
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end - start;
+}
+int Mandelbrot::getIterationForPixel(Complex z){
+    Complex c = z;
 
-    std::cout << "computation took " << elapsed_seconds.count() << "s" << std::endl;
+    for(int i = 0;i < iteration; i++){
+        // when the point escape return the iteration times
+        if(z.Modeule() > 4){
+            return i;
+        }
+        // x = x*x-y*y + C.x
+        double x = (z.getReal()*z.getReal() - z.getImag()*z.getImag())+ c.getReal();
+        // y = 2*x*y + C.y
+        double y = (2 * z.getReal()* z.getImag()+c.getImag());
 
-    stbi_write_png("mandelbrot_serial.png", 2000, 1250, 1, iteration_counts, 2000);
+        z = Complex(x,y);
+    }
+    return iteration;
+}
 
+Complex Mandelbrot::PixelofComplex(int w,int h){
+    double a = ((ce->getReal()-ca->getReal()) / wide)*w + ca->getReal();
+    double b = ((ce->getImag()-ca->getImag()) / height)*(height-h) + ca->getImag();
+    return Complex(a,b);
+}
+
+void Mandelbrot::setIteration(int newIteration){
+    if(newIteration>=0){
+        this->iteration = newIteration;
+    }
+}
+
+Complex* Mandelbrot::getCa() const {
+    return ca;
+}
+
+Complex* Mandelbrot::getCe()const{
+    return ce;
+}
+
+int Mandelbrot::getIteration()const{
+    return iteration;
+}
+
+int Mandelbrot::getWide()const{
+    return wide;
+}
+
+int Mandelbrot::getHeight()const{
+    return height;
+}
+
+int Mandelbrot::getIterationOfPixel(int i,int j)const{
+    return pixel[i+j*wide];
+}
+
+string Mandelbrot::toString(){
+    string str = "";
+
+    for(int i = 0; i < height;++i){
+        for(int j = 0; j < wide; ++j){
+            int iter = getIterationOfPixel(j,i);
+            char temp =  iteration == iter ? ' ' : (char)(iter % 26 +65);
+
+            str += temp;
+        }
+        str += "\n";
+    }
+    return str;
+}
+
+void Mandelbrot::setDemension(int wide,int height){
+    if(wide >= 0 && height >= 0){
+        this->wide = wide;
+        this->height = height;
+    }
 }

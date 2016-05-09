@@ -1,35 +1,13 @@
-#include <complex>
-#include <vector>
+/*#include <vector>
 #include <limits>
+#include <complex>
+#include <chrono>
+#include <iostream>
 
-#include <string>
-#include <sstream>
-#include <vector>
-#include <QObject>
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
 
 using namespace std;
-
-template<typename Iterate, typename IterationMap, typename T>
-int boundedorbit(Iterate f, complex<T> seed, int bound, int bailout=100,
-                 IterationMap itmap = [](int n, complex<T> z, int bailout) {return n;})
-{
-    auto z = f(seed);
-    vector<int> bailoutRange;
-    for (int i = 1; i <= bailout; i++)
-        bailoutRange.push_back(i);
-    for(auto k : bailoutRange) {
-        if (abs(z) > bound)
-            return itmap(k,z,bailout);
-        z = f(z);
-    }
-
-    return numeric_limits<int>::min();
-}
-
-template<typename T>
-float normalized_iterations(int n, complex<T> zn, int bailout) {
-    return n + (log(log(bailout)) - log(log(abs(zn))))/log(2);
-}
 
 template <typename T, typename U>
 inline std::complex<T> operator*(const std::complex<T>& lhs, const U& rhs)
@@ -38,31 +16,67 @@ inline std::complex<T> operator*(const std::complex<T>& lhs, const U& rhs)
 }
 
 template <typename T, typename U>
-inline complex<T> operator*(const U& lhs, const complex<T>& rhs)
+inline std::complex<T> operator*(const U& lhs, const std::complex<T>& rhs)
 {
     return T(lhs) * rhs;
 }
 
-void parallelMandelbrot() {
+template<typename Iterate, typename IterationMap, typename T>
+int boundedorbit(Iterate f, std::complex<T> seed, int bound, int bailout=100,
+                 IterationMap itmap = [](int n, std::complex<T> z, int bailout) { return n; })
+{
+    auto z = f(seed);
 
-    using namespace literals;
+    vector<int> bailoutRange;
+    for (int i = 1; i <= bailout; i++)
+        bailoutRange.push_back(i);
 
-    unsigned char* iteration_counts = new unsigned char[3500*2500];
+    for (auto k : bailoutRange) {
+        if (abs(z) > bound)
+            return itmap(k, z, bailout);
+        z = f(z);
+    }
+    return std::numeric_limits<int>::min();
+}
+
+template<typename T>
+float normalized_iterations(int n, std::complex<T> zn, int bailout)
+{
+    return n + (log(log(bailout))-log(log(abs(zn))))/log(2);
+}
+
+void parallelMandelbrot()
+{
+    // allow complex literal
+    using namespace std::complex_literals;
+
+    // allocate storage
+    // TODO don't leak memory
+    unsigned char* iteration_counts = new unsigned char[2000*1250];
 
     vector<int> range1;
-    for (int i = 0; i < 3500; i++)
+    for (int i = 0; i < 2000; i++)
         range1.push_back(i);
 
     vector<int> range2;
-    for (int i = 0; i < 2500; i++)
+    for (int i = 0; i < 1250; i++)
         range2.push_back(i);
 
-    for (auto j : range1) {
-        for(auto k : range2) {
-            auto c = (-2.5 + k*3.5/3500.0) + (-1.25i + j*2.5i/2500.0);
-            iteration_counts[3500*j + k] = boundedorbit([&c](auto z) { return z*z + c; }, 0.0i, 2, 200, &normalized_iterations<double>);
+    auto start = std::chrono::high_resolution_clock::now();
+
+    for (auto j : range1 ) {
+        cout << j << endl;
+        for (auto k :range2 ) {
+            auto c = (-2.5 + k*3.5/2000.0) + (-1.25i + j*2.5i/1250.0);
+            iteration_counts[2000*j + k] = boundedorbit([&c](auto z) { return z*z + c; }, 0.0i, 2, 200, &normalized_iterations<double>);
         }
     }
 
-}
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end - start;
 
+    std::cout << "computation took " << elapsed_seconds.count() << "s" << std::endl;
+
+    stbi_write_png("mandelbrot_serial.png", 2000, 1250, 1, iteration_counts, 2000);
+
+} */

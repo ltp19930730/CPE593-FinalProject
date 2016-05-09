@@ -20,20 +20,20 @@ int main(int argc, char *argv[])
 
     cout<< mandelbrot->toString()<<endl;
 
-    QTime parallelTime;
-    parallelTime.start();
-    parallelMandelbrot();
-    int time_Diff = parallelTime.elapsed();
-    float f = time_Diff/1000.0;
-    cout << f << endl;
+//    QTime parallelTime;
+//    parallelTime.start();
+//    parallelMandelbrot();
+//    int time_Diff = parallelTime.elapsed();
+//    float f = time_Diff/1000.0;
+//    cout << f << endl;
 
     QTime time;
     time.start();
     mandelbrot->setDemension(860,720);
     mandelbrot->setIteration(100);
     mandelbrot->calculate();
-    time_Diff = time.elapsed();
-    f = time_Diff/1000.0;
+    int time_Diff = time.elapsed();
+    float f = (float)time_Diff/1000.0;
 
     QString tr_timeDiff = QString{"%1"}.arg(f);
 
