@@ -41,11 +41,6 @@ public:
 
 
 
-typedef enum{
-    COLOR_START = 0, COLOR_001, COLOR_010, COLOR_011, COLOR_100, COLOR_101, COLOR_110, COLOR_111, COLOR_END
-} COLOR_CODE;
-
-
 
 
 #endif // OTHERS_HPP
