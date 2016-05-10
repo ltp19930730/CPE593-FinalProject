@@ -6,14 +6,14 @@
 #include <vector>
 #include <QGraphicsView>
 #include <QColor>
-
+#include <QResizeEvent>
 
 using namespace std;
 
 #define DEFAULT_QCOLOR_IN_SET       (QColor(0, 0, 0))
-#define MAX_WORKER_THREADS          (30)
+#define MAX_WORKER_THREADS          (100)
 #define DEFAULT_MAX_ITERATIONS      (1000)
-
+#define DEFAULT_ZOOM                 (2.0)
 class MandelbrotViewer : public QWidget{
     Q_OBJECT
 
@@ -25,19 +25,25 @@ public:
     void setMaxIteration(int maxIteration);
     void setMaxIterations(int maxIterations);
     void setMandelLocation(MandelLocation location);
-    QColor calculateImageValueColor(double value);
+
+
+    QColor calculateImageValueColor(int value);
     void paintImage(QImage *image);
     void paintEvent(QPaintEvent *event);
     void mapImagValtoQimage(double **imageVal);
-
     static MandelPoint transformViewPointToMandelPoint(ViewPoint point,
             ViewParmeters viewParameters, MandelLocation mandelLocation);
     static double calculateMandelPointIterateValue(MandelPoint point);
     static void MultiThreadtask(MandelLocation mandelLocation,ViewParmeters viewParameters,double **iterateVal);
     static void singleThreadTask(MandelLocation mandelLocation,ViewParmeters viewParmeters,double **imageVal,int start,int end);
 
+    void mousePressEvent(QMouseEvent *event);
 
+signals:
+    void signalZoom();
 
+public slots:
+    void slotZoomEvent();
 private:
     QImage *image;
     double **iterationVal;
@@ -46,7 +52,10 @@ private:
     MandelLocation mandelLocation;
     static int MaxIterations;
     static double IMAGE_VALUE_IN_SET;
+    static double zoomMultiplier;
 
+    QMouseEvent *latestQMouseEvent;
+    int zoomTime = 0;
 };
 
 

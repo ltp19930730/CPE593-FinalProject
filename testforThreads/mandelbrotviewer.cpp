@@ -4,6 +4,7 @@
 #include <thread>
 #include <QTime>
 #include <limits>
+#include <iostream>
 
 // construct of MandelbrotViewer to initial the object
 MandelbrotViewer::MandelbrotViewer(int width,int height,QWidget *parent) : QWidget(parent){
@@ -13,8 +14,11 @@ MandelbrotViewer::MandelbrotViewer(int width,int height,QWidget *parent) : QWidg
     this->ValuesAreVaild =false;
     setViewParameters(width,height);
     this->resize(width, height);
-    setMandelLocation(MandelLocation(MandelPoint(-0.75,0.0),0.0035));
+    setMandelLocation(MandelLocation(MandelPoint(-0.85,0.0),0.0035));
     setMaxIterations(DEFAULT_MAX_ITERATIONS);
+
+
+    connect(this, SIGNAL(signalZoom()), this, SLOT(slotZoomEvent()));
 }
 // set the static variable MaxIterations
 int MandelbrotViewer::MaxIterations = DEFAULT_MAX_ITERATIONS;
@@ -23,6 +27,8 @@ int MandelbrotViewer::MaxIterations = DEFAULT_MAX_ITERATIONS;
 // set the static variable IMAGE_VALUE_IN_SET as the max of double
 double MandelbrotViewer::IMAGE_VALUE_IN_SET = std::numeric_limits<double>::max();
 
+
+double MandelbrotViewer::zoomMultiplier = DEFAULT_ZOOM;
 
 // insert the view parameters into a instance of a ViewParameter class
 void MandelbrotViewer::setViewParameters(int width,int height){
@@ -90,21 +96,48 @@ double MandelbrotViewer::calculateMandelPointIterateValue(MandelPoint point){
         y = 2*x*y + point.y;
         x=xtemp;
     }
+
+
     if(i>=MaxIterations){
         return IMAGE_VALUE_IN_SET;
     }
-
     double distance = sqrt(x*x+y*y);
     double imagevalue = (double)i - (log(log(distance)) / log(2.0));
+
     return imagevalue;
 }
 
 // transfrom the escaping value to a color
-QColor MandelbrotViewer::calculateImageValueColor(double value){
-    if(value >MaxIterations || value == IMAGE_VALUE_IN_SET){return DEFAULT_QCOLOR_IN_SET;}
-    value = fmod(value,256.0);
-    return QColor(value, 0, value);
-
+QColor MandelbrotViewer::calculateImageValueColor(int value){
+    if(value >MaxIterations || value == IMAGE_VALUE_IN_SET){
+        return DEFAULT_QCOLOR_IN_SET;
+    }
+    value = fmod(value,256);
+    return QColor(0,value,0);
+//another way to color the pixel
+   /* if (value < MaxIterations && value > 0) {
+        int i = value % 16;
+        QColor mapping[16];
+        mapping[0].setRgb(66, 30, 15);
+        mapping[1].setRgb(25, 7, 26);
+        mapping[2].setRgb(9, 1, 47);
+        mapping[3].setRgb(4, 4, 73);
+        mapping[4].setRgb(0, 7, 100);
+        mapping[5].setRgb(12, 44, 138);
+        mapping[6].setRgb(24, 82, 177);
+        mapping[7].setRgb(57, 125, 209);
+        mapping[8].setRgb(134, 181, 229);
+        mapping[9].setRgb(211, 236, 248);
+        mapping[10].setRgb(241, 233, 191);
+        mapping[11].setRgb(248, 201, 95);
+        mapping[12].setRgb(255, 170, 0);
+        mapping[13].setRgb(204, 128, 0);
+        mapping[14].setRgb(153, 87, 0);
+        mapping[15].setRgb(106, 52, 3);
+        return mapping[i];
+    }
+    else return Qt::black;
+*/
 }
 // Multi-Threads algorithm for generating the image
 // separate the view into the number of the threads and then give each thread a job
@@ -143,11 +176,12 @@ void MandelbrotViewer::mapImagValtoQimage(double **imageVal){
         }
     }
 }
-//
+
+
+
 void MandelbrotViewer::paintEvent(QPaintEvent *event){
     paintImage(this->image);
 }
-
 
 void MandelbrotViewer::paintImage(QImage *image){
      QTime time;
@@ -172,10 +206,36 @@ void MandelbrotViewer::paintImage(QImage *image){
     setWindowTitle("MandelbrotSet Calculate Time: " +tr_timeDiff);
 }
 
+void MandelbrotViewer::mousePressEvent(QMouseEvent *event){
+    this->latestQMouseEvent = event;
+    emit signalZoom();
+}
 
+// press left button to zoom in and press right button to zoom out
+void MandelbrotViewer::slotZoomEvent(){
+    ViewPoint point(latestQMouseEvent->x(), latestQMouseEvent->y());
 
-
-
+    if(latestQMouseEvent->button() == Qt::LeftButton){
+        mandelLocation.pixelDelta /= zoomMultiplier;
+        MandelLocation newMandelLocation(transformViewPointToMandelPoint(point, viewParameters, mandelLocation), mandelLocation.pixelDelta);
+        setMandelLocation(newMandelLocation);
+        if(zoomTime>=5){
+            setMaxIterations(MaxIterations*2);
+        }
+        zoomTime++;
+        std::cout<<"zoom time:"<<zoomTime<<'\t'<<"Iterations:"<<MaxIterations;
+    }else if(latestQMouseEvent->button() == Qt::RightButton){
+        MandelLocation newMandelLocation(transformViewPointToMandelPoint(point, viewParameters, mandelLocation), mandelLocation.pixelDelta);
+        setMandelLocation(newMandelLocation);
+        mandelLocation.pixelDelta *= zoomMultiplier;
+        if(zoomTime>=5){
+            setMaxIterations(MaxIterations/2);
+        }
+        zoomTime--;
+    }
+    ValuesAreVaild = false;
+    this->update();
+}
 
 
 
