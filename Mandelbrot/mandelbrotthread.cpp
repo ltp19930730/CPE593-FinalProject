@@ -34,7 +34,7 @@ MandelbrotThread::MandelbrotThread(int width,int height,int iter, QWidget *paren
     connect(this, SIGNAL(signalZoom()), this, SLOT(slotZoomEvent()));
 }
 // set the static variable MaxIterations
-int MandelbrotThread::MaxIterations = DEFAULT_MAX_ITERATIONS;
+unsigned long long MandelbrotThread::MaxIterations = DEFAULT_MAX_ITERATIONS;
 
 
 // set the static variable IMAGE_VALUE_IN_SET as the max of double

@@ -52,7 +52,7 @@ private:
     bool ValuesAreVaild;
     ViewParmeters viewParameters;
     MandelLocation mandelLocation;
-    static int MaxIterations;
+    static unsigned long long MaxIterations;
     static double IMAGE_VALUE_IN_SET;
     static double zoomMultiplier;
 

@@ -81,10 +81,6 @@ int main(int argc, char *argv[])
     mandelbrot->calculate();
 
     cout<< mandelbrot->toString()<<endl;
-    MandelbrotThread mandelThread(800,600);
-    QString timeThread = mandelThread.calculateTime();
-    string t = timeThread.toStdString();
-    cout << t << endl;
 
     QTime time;
     time.start();
@@ -100,6 +96,11 @@ int main(int argc, char *argv[])
     MainWindow w(mandelbrot);
     w.setWindowTitle("MandelbrotSet Calculate Time: " +tr_timeDiff);
     w.show();
+
+    MandelbrotThread mandelThread(800,600, 100);
+
+    //show the widget of the mandelbrot viewer
+    mandelThread.show();
 
     return a.exec();
 }
