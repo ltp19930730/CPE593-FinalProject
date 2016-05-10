@@ -18,14 +18,14 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     graphicview.cpp \
     mandelbrot.cpp \
-    mandelbrotparallel.cpp
+    mandelbrotthread.cpp
 
 HEADERS  += mainwindow.h \
     complex.hpp \
     mandelbrot.h \
     graphicview.h \
     graphic.h \
-    mandelbrotparallel.h \
-    stb_image_write.h
+    others.hpp \
+    mandelbrotthread.hpp
 
 FORMS    += mainwindow.ui

@@ -21,6 +21,7 @@ Mandelbrot::~Mandelbrot() {
         delete [] pixel;
 }
 
+//calculate value at each pixel
 void Mandelbrot::calculate(){
     pixel = new int [wide * height];
 
@@ -31,6 +32,8 @@ void Mandelbrot::calculate(){
     }
 
 }
+
+//returns iteration depth of the set at a given pixel
 int Mandelbrot::getIterationForPixel(Complex z){
     Complex c = z;
 
@@ -49,6 +52,7 @@ int Mandelbrot::getIterationForPixel(Complex z){
     return iteration;
 }
 
+//returns complex value for given pixel
 Complex Mandelbrot::PixelofComplex(int w,int h){
     double a = ((ce->getReal()-ca->getReal()) / wide)*w + ca->getReal();
     double b = ((ce->getImag()-ca->getImag()) / height)*(height-h) + ca->getImag();
@@ -85,6 +89,7 @@ int Mandelbrot::getIterationOfPixel(int i,int j)const{
     return pixel[i+j*wide];
 }
 
+//Represents the mandelbrot set as a string with letters A-Z
 string Mandelbrot::toString(){
     string str = "";
 

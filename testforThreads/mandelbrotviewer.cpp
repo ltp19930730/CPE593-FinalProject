@@ -223,7 +223,7 @@ void MandelbrotViewer::slotZoomEvent(){
             setMaxIterations(MaxIterations*2);
         }
         zoomTime++;
-        std::cout<<"zoom time:"<<zoomTime<<'\t'<<"Iterations:"<<MaxIterations;
+        std::cout<<"zoom time:"<<zoomTime<<'\t'<<"Iterations:"<<MaxIterations << endl;
     }else if(latestQMouseEvent->button() == Qt::RightButton){
         MandelLocation newMandelLocation(transformViewPointToMandelPoint(point, viewParameters, mandelLocation), mandelLocation.pixelDelta);
         setMandelLocation(newMandelLocation);

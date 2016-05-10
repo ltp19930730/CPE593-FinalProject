@@ -19,8 +19,6 @@ First, we will develop a brute force algorithm. This serves two purposes. First,
 
 Second, we’ll build Mandelbrot sets using parallel calculations. Generating the set is a great opportunity for parallelism because you can start iterating from many different starting points at the same time. 
 
-Third, we’ll develop other algorithms based on the research done. The professor suggests a rectangular containment algorithm but there are plenty of different algorithms to choose from. The group will develop 2 of these.
-
 Finally, pending time constraints, the group will work on visualizing these sets. A simple set of numbers is not particularly interesting, especially in comparison to the beauty found in a visualization of these sets. However, this is not core to the project since it is an exercise in c++ programming not algorithm development. Ideally, a module will be found online that can be imported into the project that will display the sets generated from the projects algorithms.
 
 ##References

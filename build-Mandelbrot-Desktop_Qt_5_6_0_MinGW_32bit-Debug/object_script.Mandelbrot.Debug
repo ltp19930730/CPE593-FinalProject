@@ -1,0 +1,13 @@
+INPUT(
+./debug\main.o
+./debug\complex.o
+./debug\graphic.o
+./debug\mainwindow.o
+./debug\graphicview.o
+./debug\mandelbrot.o
+./debug\mandelbrotthread.o
+./debug\moc_mainwindow.o
+./debug\moc_mandelbrot.o
+./debug\moc_graphicview.o
+./debug\moc_mandelbrotthread.o
+);
