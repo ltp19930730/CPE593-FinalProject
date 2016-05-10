@@ -9,7 +9,7 @@
 #include "Mandelbrot.h"
 #include "Complex.hpp"
 
-#define testProcedure 1
+#define testProcedure 0
 #define runNormal 0
 
 using namespace std;
@@ -49,9 +49,9 @@ void testTimes() {
 
 void testParallel() {
     ofstream dataFile;
-    dataFile.open("data4.txt");
+    dataFile.open("data5.txt");
 
-    for(int i = 100; i<=20000; i+=100) {
+    for(int i = 21000; i<=40000; i+=1000) {
         dataFile << i << ',';
         cout << i << endl;
 
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
     testParallel();
 #endif
 
-#if runNormal
+
     Complex ca(-2, -1);
     Complex ce(0.5, 1);
     Mandelbrot *mandelbrot = new Mandelbrot(&ca,&ce,80,80,32);
@@ -100,6 +100,6 @@ int main(int argc, char *argv[])
     MainWindow w(mandelbrot);
     w.setWindowTitle("MandelbrotSet Calculate Time: " +tr_timeDiff);
     w.show();
-#endif
+
     return a.exec();
 }
