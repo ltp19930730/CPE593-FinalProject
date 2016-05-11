@@ -7,7 +7,6 @@ Tianpei Luo;Dillon Guarino;Matthew Melachrinos
 
 A mandelbrot set is a set of complex numbers that when graphed, form self similar patterns called fractals. Technically speaking, the mandelbrot set is “the set for which fc(z) = z2+ cdoes not diverge when iterated from z=0. When iterating the function, one of two things can happen. Either z grows to infinity, it “blows up” so to speak, or it stays bounded within r = 2. The mandelbrot set is the set of all numbers that stay bounded. 
 
-There are numerous ways of graphing a mandelbrot set. One rudimentary way is to take a linear mapping approach. There are also distance estimator algorithms and histogram color table plots. However, more research needs to be done to find a simple, easy to implement visualization technique.
 
 ##Our Goals
 
