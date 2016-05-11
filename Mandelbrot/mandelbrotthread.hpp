@@ -20,6 +20,8 @@ class MandelbrotThread : public QWidget{
 public:
     MandelbrotThread(int width,int height,QWidget *parent = NULL);
     MandelbrotThread(int width,int height,int iter,QWidget *parent = NULL);
+    MandelbrotThread(int width,int height,int iter,int threads,QWidget *parent = NULL);
+
     ~MandelbrotThread();
     void setViewParameters(int width,int height);
     void deinit();
@@ -38,7 +40,7 @@ public:
     static void MultiThreadtask(MandelLocation mandelLocation,ViewParmeters viewParameters,double **iterateVal);
     static void singleThreadTask(MandelLocation mandelLocation,ViewParmeters viewParmeters,double **imageVal,int start,int end);
     QString calculateTime();
-
+    static int numThreads;
     void mousePressEvent(QMouseEvent *event);
 
 signals:

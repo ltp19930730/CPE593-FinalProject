@@ -36,7 +36,9 @@ void GraphicView::keyPressEvent(QKeyEvent *event) {
         break;
     default:
         QGraphicsView::keyPressEvent(event);
+        break;
     }
+    this->repaint();
 }
 
 void GraphicView::scaleView(qreal scaleFactor)

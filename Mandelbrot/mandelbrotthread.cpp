@@ -6,12 +6,15 @@
 #include <limits>
 #include <iostream>
 
+int MandelbrotThread::numThreads;
+
 // construct of MandelbrotThread to initial the object
 MandelbrotThread::MandelbrotThread(int width, int height, QWidget *parent) : QWidget(parent){
     //init
     image = NULL;
     iterationVal = NULL;
     this->ValuesAreVaild =false;
+    numThreads = MAX_WORKER_THREADS;
     setViewParameters(width,height);
     this->resize(width, height);
     setMandelLocation(MandelLocation(MandelPoint(-0.85,0.0),0.0035));
@@ -26,6 +29,21 @@ MandelbrotThread::MandelbrotThread(int width,int height,int iter, QWidget *paren
     image = NULL;
     iterationVal = NULL;
     this->ValuesAreVaild =false;
+    numThreads = MAX_WORKER_THREADS;
+    setViewParameters(width,height);
+    this->resize(width, height);
+    setMandelLocation(MandelLocation(MandelPoint(-0.85,0.0),0.0035));
+    setMaxIterations(iter);
+
+
+    connect(this, SIGNAL(signalZoom()), this, SLOT(slotZoomEvent()));
+}
+MandelbrotThread::MandelbrotThread(int width,int height,int iter, int threads, QWidget *parent) : QWidget(parent){
+    //init
+    image = NULL;
+    iterationVal = NULL;
+    this->ValuesAreVaild =false;
+    numThreads = threads;
     setViewParameters(width,height);
     this->resize(width, height);
     setMandelLocation(MandelLocation(MandelPoint(-0.85,0.0),0.0035));
@@ -128,7 +146,7 @@ QColor MandelbrotThread::calculateImageValueColor(int value){
     value = fmod(value,256);
     return QColor(0,value,0);
 //another way to color the pixel
-   /* if (value < MaxIterations && value > 0) {
+    if (value < MaxIterations && value > 0) {
         int i = value % 16;
         QColor mapping[16];
         mapping[0].setRgb(66, 30, 15);
@@ -150,7 +168,7 @@ QColor MandelbrotThread::calculateImageValueColor(int value){
         return mapping[i];
     }
     else return Qt::black;
-*/
+
 }
 // Multi-Threads algorithm for generating the image
 // separate the view into the number of the threads and then give each thread a job
@@ -158,9 +176,9 @@ QColor MandelbrotThread::calculateImageValueColor(int value){
 void MandelbrotThread::MultiThreadtask(MandelLocation mandelLocation,
                  ViewParmeters viewParameters,double **iterateVal){
     vector<std::thread*> threads;
-    for(int i=0; i<MAX_WORKER_THREADS; i++){
-        int start = i*(viewParameters.width / MAX_WORKER_THREADS);
-        int end = (i+1)*(viewParameters.width / MAX_WORKER_THREADS);
+    for(int i=0; i<numThreads; i++){
+        int start = i*(viewParameters.width / numThreads);
+        int end = (i+1)*(viewParameters.width / numThreads);
         std::thread *thread = new std::thread(singleThreadTask, mandelLocation, viewParameters, iterateVal, start, end);
         threads.push_back(thread);
     }
@@ -269,39 +287,3 @@ void MandelbrotThread::slotZoomEvent(){
     ValuesAreVaild = false;
     this->update();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

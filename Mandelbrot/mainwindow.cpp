@@ -18,7 +18,6 @@ MainWindow::MainWindow(Mandelbrot *model,QWidget *parent) : QMainWindow(parent){
     //ui->tableWidget->setGeometry(model->getWide()-200,0,200,(int)ui->tableWidget->geometry().height());
     setSize(model->getWide(),model->getHeight());
     ui->tableWidget->move(model->getWide(),0);
-
 }
 
 MainWindow::~MainWindow()
@@ -57,4 +56,5 @@ void MainWindow::on_tableWidget_cellChanged(int row, int column)
         model->calculate();
         ui->GraphicsView->repaint();
     }
+    this->update();
 }

@@ -10,7 +10,7 @@
 #include "Complex.hpp"
 
 #define testProcedure 0
-#define runNormal 0
+#define runNormal 1
 
 using namespace std;
 
@@ -49,16 +49,23 @@ void testTimes() {
 
 void testParallel() {
     ofstream dataFile;
-    dataFile.open("data5.txt");
+    dataFile.open("2Threads.txt");
 
-    for(int i = 21000; i<=40000; i+=1000) {
+
+    int threadList[] = {5,10,20,35,50,100,200,500,1000};
+
+    for(int i = 1000; i<=20000; i+=1000) {
         dataFile << i << ',';
         cout << i << endl;
 
-        MandelbrotThread mandelThread(860,720,i);
-        QString timeThread = mandelThread.calculateTime();
-        string t2 = timeThread.toStdString();
-        dataFile << t2 << "\n";
+        for(int k = 0; k < 9; k++) {
+            MandelbrotThread mandelThread(860,720,i,threadList[k]);
+            QString timeThread = mandelThread.calculateTime();
+            string t2 = timeThread.toStdString();
+            dataFile << t2;
+            if(k!=8) dataFile << ",";
+        }
+        dataFile << '\n';
 
     }
     dataFile.close();
@@ -73,7 +80,7 @@ int main(int argc, char *argv[])
     testParallel();
 #endif
 
-
+#if runNormal
     Complex ca(-2, -1);
     Complex ce(0.5, 1);
     Mandelbrot *mandelbrot = new Mandelbrot(&ca,&ce,80,80,32);
@@ -85,7 +92,7 @@ int main(int argc, char *argv[])
     QTime time;
     time.start();
     mandelbrot->setDemension(860,720);
-    mandelbrot->setIteration(100);
+    mandelbrot->setIteration(50);
     mandelbrot->calculate();
     int time_Diff = time.elapsed();
     float f = (float)time_Diff/1000.0;
@@ -97,10 +104,11 @@ int main(int argc, char *argv[])
     w.setWindowTitle("MandelbrotSet Calculate Time: " +tr_timeDiff);
     w.show();
 
-    MandelbrotThread mandelThread(800,600, 100);
+    MandelbrotThread mandelThread(860,720, 500, 200);
 
     //show the widget of the mandelbrot viewer
     mandelThread.show();
+#endif
 
     return a.exec();
 }
